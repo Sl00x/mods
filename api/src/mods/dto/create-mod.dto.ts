@@ -1,10 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-  IsString,
-  IsNotEmpty,
   IsBoolean,
+  IsNotEmpty,
   IsNumber,
   IsOptional,
+  IsString,
   IsUUID,
 } from 'class-validator';
 
@@ -24,14 +24,6 @@ export class CreateModDto {
   @IsString()
   @IsNotEmpty()
   description: string;
-
-  @ApiProperty({
-    description: 'Documentation for the mod',
-    example: 'text',
-  })
-  @IsString()
-  @IsNotEmpty()
-  doc: string;
 
   @ApiProperty({
     description: 'Indicates if the mod is free or paid',
@@ -64,5 +56,28 @@ export class CreateModDto {
   @IsString()
   @IsUUID()
   gameId: string;
+
+  @ApiProperty({
+    description: 'Game id',
+  })
+  @IsString()
+  @IsUUID()
+  plateformId: string;
+
+  @ApiProperty({
+    description: 'Version',
+    default: '1.0',
+  })
+  @IsString()
+  @IsUUID()
+  version: string;
+
+  @ApiProperty({
+    description: 'Main file of the mod',
+    type: 'string',
+    format: 'binary',
+  })
+  file: Express.Multer.File;
+
   authorId: string;
 }

@@ -1,6 +1,9 @@
+import { Plateform } from "./plateform.interface";
+
 export interface Game {
-    id?: string;
-    name: string;
-    description: string;
-    plateform: string;
+  id?: string;
+  name: string;
+  description: string;
+  plateforms: Plateform[];
+  image: string;
 }

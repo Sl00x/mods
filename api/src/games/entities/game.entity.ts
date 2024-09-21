@@ -1,9 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Plateform } from 'src/plateforms/entities/plateform.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -15,16 +18,21 @@ export class Game {
   id: string;
 
   @ApiProperty()
-  @Column({ unique: true })
+  @Column()
   name: string;
 
   @ApiProperty()
-  @Column()
-  plateform: string;
+  @ManyToMany(() => Plateform)
+  @JoinTable({ name: 'game-plateforms' })
+  plateforms: Plateform[];
 
   @ApiProperty()
   @Column()
   description: string;
+
+  @ApiProperty()
+  @Column({ nullable: true })
+  image: string;
 
   @ApiProperty()
   @CreateDateColumn()

@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
-import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { GamesModule } from './games/games.module';
+import { MinioClientModule } from './minio/minio.module';
 import { ModsModule } from './mods/mods.module';
+import { PlateformsModule } from './plateforms/plateforms.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -23,6 +25,8 @@ import { ModsModule } from './mods/mods.module';
     AuthModule,
     GamesModule,
     ModsModule,
+    PlateformsModule,
+    MinioClientModule,
   ],
   controllers: [],
   providers: [],

@@ -1,26 +1,27 @@
+"use client";
+
 import { GameCard } from "@/components/Card/GameCard";
-import HeroSection from "@/components/HeroSection/Section";
-import React from "react";
+import { useGetGamesQuery } from "@/features/api/root-api";
 
-const GameList = () => {
-    return(
-        <div className="">
-            <HeroSection/>
-            <div className="p-4 px-20 flex flex-col space-y-4">
-                <div className="flex flex-col">
-                    <h2 className="font-bold uppercase text-primary text-3xl">Last games</h2>
-                    <p className="text-dark/75 text-md">Show list of last games added.</p>
-                </div>
-                <div className="grid grid-cols-5 gap-2">
-                    <GameCard title={"Grand Theft Auto V"} description={""} plateform={"PC"}/>
-                    <GameCard title={"Grand Theft Auto V"} description={""} plateform={"PS5"}/>
-                    <GameCard title={"Grand Theft Auto V"} description={""} plateform={"XBOX SERIE X"}/>
-                    <GameCard title={"Grand Theft Auto V"} description={""} plateform={"PS4"}/>
-                    <GameCard title={"Grand Theft Auto V"} description={""} plateform={"XBOX ONE"}/>
-                </div>
-            </div>
+const Games = () => {
+  const { data: games } = useGetGamesQuery();
+  return (
+    <div className="bg-white h-full overflow-auto">
+      <div className="p-10 space-y-4 bg-light">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-2">
+          {games?.map((game) => (
+            <GameCard
+              key={game.id}
+              title={game?.name}
+              image={game?.image}
+              description={game?.description}
+              plateforms={game?.plateforms}
+            />
+          ))}
         </div>
-    )
-}
+      </div>
+    </div>
+  );
+};
 
-export default GameList;
+export default Games;

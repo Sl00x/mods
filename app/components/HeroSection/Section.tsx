@@ -1,41 +1,150 @@
-'use client'
-import { Button } from '../Button/Button'
+"use client";
 
+import { RiArrowRightLine } from "@remixicon/react";
+import { Button } from "../Button/Button";
 
 export default function HeroSection() {
-
   return (
-    <div className="relative isolate overflow-hidden bg-light h-full">
-        <svg
-            className="absolute inset-0 -z-10 h-full w-full stroke-black/10 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
-            aria-hidden="true">
-            <defs>
-            <pattern id="983e3e4c-de6d-4c3f-8d64-b9761d1534cc" width="200" height="200" x="100%" y="-1"
-                patternUnits="userSpaceOnUse">
-                <path d="M.5 200V.5H200" fill="none"></path>
-            </pattern>
-            </defs>
-            <svg x="50%" y="-1" className="overflow-visible fill-primary/20">
-            <path d="M-200 0h201v201h-201Z M600 0h201v201h-201Z M-400 600h201v201h-201Z M200 800h201v201h-201Z"
-                stroke-width="0"></path>
-            </svg>
-            <rect width="100%" height="100%" stroke-width="0" fill="url(#983e3e4c-de6d-4c3f-8d64-b9761d1534cc)"></rect>
-        </svg>
-        <div className="mt-[-50px] flex h-[500px] items-center justify-center">
-            <div className="max-w-full flex-shrink-0 px-4 text-center lg:mx-0 lg:max-w-3xl lg:pt-8">
-            <h1 className="mt-10 text-5xl font-bold tracking-tight text-dark sm:text-6xl">
-                Earn
-                <span className="text-primary ml-2">Money</span> with your
-                <span className="text-primary ml-2">Mods</span>
-            </h1>
-            <p className="mt-6 text-lg leading-8 text-dark/50">
-                Manage your mods license key and payment, and get stats about it !
-            </p>
-            <div className="mt-5 flex items-center justify-center gap-x-6">
-                <Button title="Try now."/>
+    <div className="bg-white container flex flex-col px-6 py-10 mx-auto space-y-6 lg:h-[32rem] lg:py-16 lg:flex-row lg:items-center">
+      <div className="w-full lg:w-1/2">
+        <div className="lg:max-w-lg">
+          <h1 className="text-3xl font-extrabold tracking-wide uppercase text-gray-800 dark:text-white lg:text-4xl">
+            EARN <b className="text-primary">MONEY</b> WITH YOUR{" "}
+            <b className="text-primary">MODS</b>
+          </h1>
+          <p className="mt-4 text-gray-600 dark:text-gray-300">
+            We work with the best remunated glasses dealers in US to find your
+            new glasses.
+          </p>
+          <div className="grid gap-6 mt-8 sm:grid-cols-2">
+            <div className="flex items-center text-gray-800 -px-3 dark:text-gray-200">
+              <svg
+                className="w-5 h-5 mx-3"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+
+              <span className="mx-3">All Plateforms</span>
             </div>
+
+            <div className="flex items-center text-gray-800 -px-3 dark:text-gray-200">
+              <svg
+                className="w-5 h-5 mx-3"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+
+              <span className="mx-3">Lots of Games</span>
             </div>
+
+            <div className="flex items-center text-gray-800 -px-3 dark:text-gray-200">
+              <svg
+                className="w-5 h-5 mx-3"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+
+              <span className="mx-3">License Key System</span>
+            </div>
+
+            <div className="flex items-center text-gray-800 -px-3 dark:text-gray-200">
+              <svg
+                className="w-5 h-5 mx-3"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+
+              <span className="mx-3">Earn Money</span>
+            </div>
+
+            <div className="flex items-center text-gray-800 -px-3 dark:text-gray-200">
+              <svg
+                className="w-5 h-5 mx-3"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+
+              <span className="mx-3">Create Community</span>
+            </div>
+
+            <div className="flex items-center text-gray-800 -px-3 dark:text-gray-200">
+              <svg
+                className="w-5 h-5 mx-3"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+
+              <span className="mx-3">Instant Delivery</span>
+            </div>
+          </div>
+          <div className="w-full flex flex-row justify-end items-center mt-4 space-x-2">
+            <Button title="Show more" icon={RiArrowRightLine} color="dark" />
+            <Button title="Join us" color="primary" />
+          </div>
         </div>
+      </div>
+
+      <div className="flex items-center justify-center w-full h-96 lg:w-1/2">
+        <img
+          className="object-cover w-full h-full max-w-2xl rounded-md"
+          src="/hero.svg"
+          alt="glasses photo"
+        />
+      </div>
     </div>
-  )
+  );
 }

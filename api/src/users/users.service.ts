@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcryptjs';
+import { MinioClientService } from 'src/minio/minio.service';
 import { FindManyOptions, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -11,6 +12,7 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private readonly minioService: MinioClientService,
   ) {}
 
   validatePassword(password: string) {
@@ -31,10 +33,10 @@ export class UserService {
   }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    // const passwordValidation = this.validatePassword(createUserDto.password);
-    // if (passwordValidation !== true) {
-    //   throw new BadRequestException(passwordValidation);
-    // }
+    const passwordValidation = this.validatePassword(createUserDto.password);
+    if (passwordValidation !== true) {
+      throw new BadRequestException(passwordValidation);
+    }
     const hashedPassword = await this.hashPassword(createUserDto.password);
     createUserDto.password = hashedPassword;
     const result = await this.userRepository.save(createUserDto);
@@ -60,5 +62,20 @@ export class UserService {
 
   remove(id: string) {
     return this.userRepository.softDelete(id);
+  }
+
+  async getAllUsername() {
+    const users = await this.userRepository.find({
+      select: ['username'],
+    });
+    return users.map((user) => user.username);
+  }
+
+  async updateAvatar(file: Express.Multer.File, id: string) {
+    const { name } = await this.minioService.upload(
+      file,
+      process.env.MINIO_USER_BUCKET,
+    );
+    return this.userRepository.update(id, { avatar: name });
   }
 }

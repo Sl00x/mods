@@ -1,19 +1,43 @@
+import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { firstValueFrom } from 'rxjs';
+import { PlateformsService } from 'src/plateforms/plateforms.service';
+import { FindManyOptions, Repository } from 'typeorm';
+import { createWithManyToManyRelations } from 'utils/repository-global-process';
 import { CreateGameDto } from './dto/create-game.dto';
 import { UpdateGameDto } from './dto/update-game.dto';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Game } from './entities/game.entity';
-import { FindManyOptions, Repository } from 'typeorm';
 
 @Injectable()
 export class GamesService {
   constructor(
     @InjectRepository(Game)
     private readonly gameRepository: Repository<Game>,
+    private readonly plateformService: PlateformsService,
+    private readonly httpService: HttpService,
   ) {}
 
-  create(createGameDto: CreateGameDto) {
-    return this.gameRepository.save(createGameDto);
+  async create(createGameDto: CreateGameDto) {
+    const { data } = await firstValueFrom(
+      this.httpService.get(
+        `https://store.steampowered.com/api/storesearch/?term=${createGameDto.name}&l=english&cc=US`,
+      ),
+    );
+    createGameDto = {
+      ...createGameDto,
+      image: data['items'][0]
+        ? `https://cdn.akamai.steamstatic.com/steam/apps/${data['items'][0]['id']}/header.jpg`
+        : null,
+    };
+
+    return createWithManyToManyRelations({
+      dto: createGameDto,
+      dtoKey: 'ids',
+      relationKey: 'plateforms',
+      relatedService: this.plateformService,
+      mainRepository: this.gameRepository,
+    });
   }
 
   findAll(options?: FindManyOptions<Game>) {

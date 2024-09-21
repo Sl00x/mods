@@ -1,28 +1,48 @@
-import React from "react";
-import { Button } from "../Button/Button";
+import { Plateform } from "@/interfaces/plateform.interface";
 
 interface GameCardProps {
-    title: string;
-    description: string;
-    plateform: string;
-    onClick?: () => void;
+  title: string;
+  description: string;
+  image?: string;
+  plateforms: Plateform[];
+  onClick?: () => void;
 }
 
 export const GameCard = (props: GameCardProps) => {
-    return(
-        <div className="relative flex flex-col mt-6 text-dark/75 bg-white shadow-md bg-clip-border rounded-xl w-full">
-            <div className="p-6">
-                <h5 className="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-dark">
-                {props.title}
-                </h5>
-                <p className="block font-sans text-base antialiased font-light leading-relaxed text-inherit">
-                {props.description}
-                </p>
-                <span className="bg-dark rounded-md p-1 px-2 uppercase text-xs text-white font-bold">{props.plateform}</span>
-            </div>
-            <div className="p-6 pt-0">
-                <Button title="Show more." onClick={props.onClick}/>
-            </div>
+  return (
+    <div className="max-w-2xl overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800">
+      {props.image && (
+        <img
+          className="object-fit w-full h-40"
+          src={props.image}
+          alt="Article"
+        />
+      )}
+
+      <div className="p-6">
+        <div>
+          <div className="flex flex-row space-x-2 text-xs font-bold uppercase text-primary">
+            {props.plateforms.map((platform) => (
+              <span
+                className="bg-dark text-light px-1 rounded-sm"
+                key={platform.id}
+              >
+                {platform.name}
+              </span>
+            ))}
+          </div>
+          <a
+            href="#"
+            className="block mt-2 text-xl font-semibold text-gray-800 transition-colors duration-300 transform dark:text-white hover:text-gray-600 hover:underline"
+            role="link"
+          >
+            {props.title}
+          </a>
+          <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+            {props.description}
+          </p>
         </div>
-    )
-}
+      </div>
+    </div>
+  );
+};

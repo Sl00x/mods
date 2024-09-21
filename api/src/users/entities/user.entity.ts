@@ -1,9 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { ModComment } from 'src/mods/entities/mod-comment.entity';
+import { ModReview } from 'src/mods/entities/mod-review.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -29,6 +32,10 @@ export class User {
   firstname: string;
 
   @ApiProperty()
+  @Column({ nullable: true })
+  avatar: string;
+
+  @ApiProperty()
   @Column()
   lastname: string;
 
@@ -43,6 +50,12 @@ export class User {
   @ApiProperty()
   @Column({ unique: true })
   username: string;
+
+  @OneToMany(() => ModReview, (review) => review.author)
+  reviews: ModReview[];
+
+  @OneToMany(() => ModComment, (comment) => comment.author)
+  comments: ModComment[];
 
   @ApiProperty()
   @CreateDateColumn()

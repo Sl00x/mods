@@ -1,55 +1,107 @@
-import { createApi } from '@reduxjs/toolkit/query/react';
-import { getFetchBaseQuery } from './constant-api'
-import { User } from '@/interfaces/user.interface';
-import { Game } from '@/interfaces/game.interface';
+import { Game } from "@/interfaces/game.interface";
+import { Mod } from "@/interfaces/mod.interface";
+import { UpdateUserDto, User } from "@/interfaces/user.interface";
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { getFetchBaseQuery } from "./constant-api";
 
 export const rootApi = createApi({
-  reducerPath: 'rootApi',
-  baseQuery: getFetchBaseQuery(''),
-  tagTypes: ['USER', 'ME', 'GAMES'],
+  reducerPath: "rootApi",
+  baseQuery: getFetchBaseQuery(""),
+  tagTypes: ["USER", "ME", "GAMES", "MODS"],
   keepUnusedDataFor: 60,
   endpoints: (builder) => ({
-    signIn: builder.mutation<{access_token: string}, Partial<User>>({
+    signIn: builder.mutation<{ access_token: string }, Partial<User>>({
       query: (body) => ({
-        url: '/auth',
-        method: 'POST',
+        url: "/auth",
+        method: "POST",
         body,
       }),
-      invalidatesTags: ['ME'],
+      invalidatesTags: ["ME"],
     }),
     signUp: builder.mutation<User, User>({
       query: (body) => ({
-        url: '/user',
-        method: 'POST',
+        url: "/user",
+        method: "POST",
         body,
       }),
-      invalidatesTags: ['ME'],
+      invalidatesTags: ["ME"],
+    }),
+    updateUser: builder.mutation<User, UpdateUserDto>({
+      query: (body) => ({
+        url: "/user",
+        method: "PATCH",
+        body,
+      }),
+      invalidatesTags: ["ME"],
+    }),
+    updateAvatar: builder.mutation<any, FormData>({
+      query: (body) => ({
+        url: "/user/avatar",
+        method: "PATCH",
+        body,
+      }),
+      invalidatesTags: ["ME"],
     }),
     getUsers: builder.query<User[], void>({
       query: () => ({
-        url: '/user',
+        url: "/user",
       }),
-      providesTags: ['USER'],
+      providesTags: ["USER"],
+    }),
+    getNotAvailableUsername: builder.query<string[], void>({
+      query: () => ({
+        url: "/user/usernames",
+      }),
     }),
     getMe: builder.query<User, void>({
       query: () => ({
-        url: '/user/me',
+        url: "/user/me",
       }),
-      providesTags: ['ME'],
+      providesTags: ["ME"],
     }),
     createGame: builder.mutation<Game, Game>({
       query: (body) => ({
-        url: '/games',
-        method: 'POST',
+        url: "/games",
+        method: "POST",
         body,
       }),
-      invalidatesTags: ['GAMES'],
+      invalidatesTags: ["GAMES"],
     }),
     getGames: builder.query<Game[], void>({
       query: () => ({
-        url: '/games',
+        url: "/games",
       }),
-      providesTags: ['GAMES'],
+      providesTags: ["GAMES"],
+    }),
+    getGamePlateforms: builder.query<Game, string>({
+      query: (id) => ({
+        url: `/games/${id}/plateforms`,
+      }),
+    }),
+    createMod: builder.mutation<any, FormData>({
+      query: (body) => ({
+        url: "/mods",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["MODS"],
+    }),
+    getModBySlug: builder.query<Mod, string>({
+      query: (slug) => ({
+        url: `/mods/slug/${slug}`,
+      }),
+      providesTags: (_, __, arg) => [{ type: "MODS", id: arg }],
+    }),
+    getMyMods: builder.query<Mod[], void>({
+      query: () => ({
+        url: `/mods/me`,
+      }),
+    }),
+    getPreviewByCurrentVersion: builder.query<string[], string>({
+      query: (id) => ({
+        url: `/mods/version/${id}/previews`,
+      }),
+      providesTags: (_, __, arg) => [{ type: "MODS", id: arg }],
     }),
   }),
 });
@@ -61,5 +113,14 @@ export const {
   useCreateGameMutation,
   useGetUsersQuery,
   useLazyGetMeQuery,
+  useGetMeQuery,
+  useCreateModMutation,
   usePrefetch,
+  useGetModBySlugQuery,
+  useLazyGetGamePlateformsQuery,
+  useLazyGetPreviewByCurrentVersionQuery,
+  useUpdateUserMutation,
+  useGetNotAvailableUsernameQuery,
+  useUpdateAvatarMutation,
+  useGetMyModsQuery,
 } = rootApi;

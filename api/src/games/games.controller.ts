@@ -1,16 +1,16 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
 } from '@nestjs/common';
-import { GamesService } from './games.service';
+import { ApiTags } from '@nestjs/swagger';
 import { CreateGameDto } from './dto/create-game.dto';
 import { UpdateGameDto } from './dto/update-game.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { GamesService } from './games.service';
 
 @Controller('games')
 @ApiTags('Game')
@@ -24,12 +24,23 @@ export class GamesController {
 
   @Get()
   findAll() {
-    return this.gamesService.findAll();
+    return this.gamesService.findAll({
+      relations: { plateforms: true },
+      order: { name: 'ASC' },
+    });
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.gamesService.findOne(id);
+  }
+
+  @Get(':id/plateforms')
+  findPlateform(@Param('id') id: string) {
+    return this.gamesService.findOne({
+      where: { id },
+      relations: { plateforms: true },
+    });
   }
 
   @Patch(':id')
